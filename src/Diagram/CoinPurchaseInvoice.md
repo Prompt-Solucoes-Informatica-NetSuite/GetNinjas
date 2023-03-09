@@ -4,15 +4,18 @@
 ```mermaid
 
 flowchart
-    Start[START] --> CoinPurchaseList 
-    CoinPurchaseList(Coin Purchase Invoice)
-        --> ListUser(List of Users and Purchased coins)
+    Start[START] 
+        --> CoinPurchaseList(Coin Purchase Invoice)
+        --> ListUser
+        
+    ListUser(List of Users and Purchased coins) 
+        -->|Separate CoinPurchases by User| SummaryUser
     
+    SummaryUser(Summary each User)
+        --> |Collect User to work| BuildBalance
     
-    ListUser -->|Separate CoinPurchases by User| SummaryUser(Summary each User)
-    SummaryUser 
-        --> |Collect User to work| BuildBalance(Make balance by user)
-    BuildBalance --> |Make balance by User| BuildInvoice(Make Invoice Transcation by Balance) 
+    BuildBalance(Calculate and make balance) 
+        --> |Make balance by User| BuildInvoice(Make Invoice Transcation by Balance) 
         --> IsCreatedInvoice{Invoice created}
 
 
@@ -23,10 +26,14 @@ flowchart
 
     IsCreatedInvoice
         --> |No| ExceptionFlow01[Update user]
-        
-    ExceptionFlow01[Store info, send to ExceptionFlow01]
-        --> Finish
 
+    ExceptionFlow01
+        --> EF01Step01
+        --> EF02Step02
+        --> SummaryUser
+
+    EF01Step01(Register in CustomRecord)
+    EF02Step02(Add to Queue to reprocess)
 
     RemainRecord 
         --> |Yes| SummaryUser
