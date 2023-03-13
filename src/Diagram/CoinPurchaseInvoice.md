@@ -5,41 +5,67 @@
 
 flowchart
     Start[START] 
-        --> CoinPurchaseList(Coin Purchase Invoice)
+        --> CoinPurchaseList(Listar consumo de moedas por faixa de tempo)
         --> ListUser
         
-    ListUser(List of Users and Purchased coins) 
-        -->|Separate CoinPurchases by User| SummaryUser
+    ListUser(Listar usuários por consumo de moedas) 
+        -->|Agrupar usuários por consumo| SummaryUser
     
-    SummaryUser(Summary each User)
-        --> |Collect User to work| BuildBalance
+    SummaryUser(Buscar usuário e moedas por faixa de tempo)
+        --> BuildBalance
     
-    BuildBalance(Calculate and make balance) 
-        --> |Make balance by User| BuildInvoice(Make Invoice Transcation by Balance) 
-        --> IsCreatedInvoice{Invoice created}
+    BuildBalance(Calcular balanço de moedas consumidas) 
+        --> |Executar balaço de consumo| BuildInvoice(Make Invoice Transcation by Balance) 
+        --> BuildCompensation
 
+    BuildCompensation(Calcular compensação de consumo)
+        --> |Calcular compensação com os consumos| IsCompensationMatch
 
-    IsCreatedInvoice 
-        --> |Yes| UpdateCP[Update each CP with internal ID]
-        --> UpdateCPFlag[Update each CP flag as finished]
-        --> RemainRecord{Has Record yet?}
+    IsCompensationMatch{Compensação correta?}
 
+    IsCompensationMatch
+        --> |Valor correto| BuildCalculation(Construir registro de compensação)
+        --> IsCreatedInvoice
+
+    IsCompensationMatch
+        --> |Valor incorreto| ExceptionFlow02
+
+    IsCreatedInvoice{Invoice created}
     IsCreatedInvoice
-        --> |No| ExceptionFlow01[Update user]
+        --> |Sim| UpdateCP
+    IsCreatedInvoice
+        --> |Não| ExceptionFlow01
 
+    UpdateCP[Atualizar Compra de Moeda]
+        --> UpdateCPFlag[Atualizar FLAG de atualizado]
+        --> UpdateCPInvoiceId[Adicionar ID da fatura]
+        --> RemainRecord{Ainda existem\n registros?}
+
+    ExceptionFlow01[Fluxo de exceção\n de invoice]
     ExceptionFlow01
         --> EF01Step01
+        --> EF01Step02
+        --> SummaryUser
+    
+    EF01Step01(Armazenar registros)
+    EF01Step02(Adicionar fila para reprocessar)
+
+
+    ExceptionFlow02[Calculo incorreto]
+    ExceptionFlow02
+        --> EF02Step01
         --> EF02Step02
         --> SummaryUser
 
-    EF01Step01(Register in CustomRecord)
-    EF02Step02(Add to Queue to reprocess)
+    EF02Step01(Armazenar registros \nde calculo)
+    EF02Step02(Alertar via e-mail)
+
 
     RemainRecord 
-        --> |Yes| SummaryUser
+        --> |Sim| SummaryUser
 
     RemainRecord
-        --> |No| Finish
+        --> |Não| Finish
 
 
 
