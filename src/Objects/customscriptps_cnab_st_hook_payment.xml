@@ -1,0 +1,25 @@
+<suitelet scriptid="customscriptps_cnab_st_hook_payment">
+  <description></description>
+  <isinactive>F</isinactive>
+  <name>ps_cnab_st_hook_payment</name>
+  <notifyadmins>F</notifyadmins>
+  <notifyemails></notifyemails>
+  <notifyowner>T</notifyowner>
+  <notifyuser>F</notifyuser>
+  <scriptfile>[/SuiteScripts/prompt-cnab/suitelets/ps_cnab_st_hook_payments.js]</scriptfile>
+  <scriptdeployments>
+    <scriptdeployment scriptid="customdeployps_cnab_st_hook_payment">
+      <allemployees>F</allemployees>
+      <allpartners>F</allpartners>
+      <allroles>T</allroles>
+      <audslctrole></audslctrole>
+      <eventtype>POST</eventtype>
+      <isdeployed>T</isdeployed>
+      <isonline>T</isonline>
+      <loglevel>DEBUG</loglevel>
+      <runasrole>ADMINISTRATOR</runasrole>
+      <status>RELEASED</status>
+      <title>ps_cnab_st_hook_payment</title>
+    </scriptdeployment>
+  </scriptdeployments>
+</suitelet>

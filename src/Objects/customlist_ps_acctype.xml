@@ -1,0 +1,16 @@
+<customlist scriptid="customlist_ps_acctype">
+  <description></description>
+  <isinactive>F</isinactive>
+  <isordered>T</isordered>
+  <name>PS TIPO CONTA</name>
+  <customvalues>
+    <customvalue scriptid="val_95368_7226017_sb1_483">
+      <isinactive>F</isinactive>
+      <value>CORRENTE</value>
+    </customvalue>
+    <customvalue scriptid="val_95369_7226017_sb1_869">
+      <isinactive>F</isinactive>
+      <value>POUPANÇA</value>
+    </customvalue>
+  </customvalues>
+</customlist>

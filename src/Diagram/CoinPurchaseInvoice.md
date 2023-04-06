@@ -22,8 +22,6 @@ flowchart
         --> |Calcular compensação com os consumos| IsCompensationMatch
 
     IsCompensationMatch{Compensação correta?}
-
-    IsCompensationMatch
         --> |Valor correto| BuildCalculation(Construir registro de compensação)
         --> IsCreatedInvoice
 

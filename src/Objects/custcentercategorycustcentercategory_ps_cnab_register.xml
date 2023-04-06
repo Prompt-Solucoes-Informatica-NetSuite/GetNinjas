@@ -1,0 +1,13 @@
+<centercategory scriptid="custcentercategorycustcentercategory_ps_cnab_register">
+  <center>BASIC</center>
+  <centertab>[scriptid=custcentertab_ps_cnab_br]</centertab>
+  <label>Cadastros</label>
+  <links>
+    <link>
+      <linklabel>Conta Bancária</linklabel>
+      <linkobject>[scriptid=customrecord_ps_bank_account]</linkobject>
+      <linktasktype>LIST</linktasktype>
+      <shortlist>F</shortlist>
+    </link>
+  </links>
+</centercategory>

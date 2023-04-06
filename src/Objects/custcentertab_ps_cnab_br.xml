@@ -1,0 +1,10 @@
+<centertab scriptid="custcentertab_ps_cnab_br">
+  <allcustomers>F</allcustomers>
+  <allemployees>F</allemployees>
+  <allpartners>F</allpartners>
+  <allroles>T</allroles>
+  <allvendors>F</allvendors>
+  <audslctrole></audslctrole>
+  <center>BASIC</center>
+  <label>CNAB-BR</label>
+</centertab>
