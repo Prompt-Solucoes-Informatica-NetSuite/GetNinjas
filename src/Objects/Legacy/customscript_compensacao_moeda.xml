@@ -1,0 +1,22 @@
+<restlet scriptid="customscript_compensacao_moeda">
+  <description></description>
+  <isinactive>F</isinactive>
+  <name>Compensação de Moedas</name>
+  <notifyadmins>F</notifyadmins>
+  <notifyemails></notifyemails>
+  <notifyowner>T</notifyowner>
+  <notifyuser>F</notifyuser>
+  <scriptfile>[/SuiteScripts/PromptSytem/Legacy/CompensacaoMoedas.RL.js]</scriptfile>
+  <scriptdeployments>
+    <scriptdeployment scriptid="customdeploy_compensacao_moeda">
+      <allemployees>T</allemployees>
+      <allpartners>T</allpartners>
+      <allroles>T</allroles>
+      <audslctrole></audslctrole>
+      <isdeployed>T</isdeployed>
+      <loglevel>DEBUG</loglevel>
+      <status>RELEASED</status>
+      <title>Compensação de Moedas</title>
+    </scriptdeployment>
+  </scriptdeployments>
+</restlet>

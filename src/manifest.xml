@@ -18,6 +18,11 @@
       <feature required="true">SERVERSIDESCRIPTING</feature>
       <feature required="false">OPPORTUNITIES</feature>
       <feature required="false">CREATESUITEBUNDLES</feature>
+      <feature required="true">CLASSES</feature>
+      <feature required="true">LOCATIONS</feature>
     </features>
+    <objects>
+      <object>customrecord_cpb_compensacao_moedas</object>
+    </objects>
   </dependencies>
 </manifest>
