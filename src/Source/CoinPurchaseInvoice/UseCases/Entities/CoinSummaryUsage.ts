@@ -17,7 +17,11 @@ export class CoinSummaryUsage implements ICoinSummaryUsage {
       rate: number
       quantity: number
       amount: number
+      creation_date: Date
       compensations: ICompensationSummary[]
+
+      journal_id: string | number
+      invoice_id: string | number
 
       errors: PropertyError[]
 
@@ -34,6 +38,9 @@ export class CoinSummaryUsage implements ICoinSummaryUsage {
             this.quantity = 0
             this.rate = 0
             this.amount = 0
+            this.journal_id = 0
+            this.invoice_id = 0
+            this.creation_date = new Date()
             this.compensations = []
             this.errors = []
 
@@ -43,9 +50,9 @@ export class CoinSummaryUsage implements ICoinSummaryUsage {
             this.save_compensations = this.save_data_compensations
       }
 
-      build = (value: Summary) => { //TODO está faltando o RATE
+      build_by_summary = (value: Summary) => {
 
-            debug('Build Coin Summary', value)
+            debug('Build Coin Summary: by summary', value)
             if (!value.customer_id) this.add_error(value.customer_id)
             if (!value.class_id) this.add_error(value.class_id)
             if (!value.quantity) this.add_error(value.quantity)
@@ -57,9 +64,27 @@ export class CoinSummaryUsage implements ICoinSummaryUsage {
             this.quantity = value.quantity
             this.amount = value.amount
             this.rate = value.rate
+            this.creation_date = value.creation_date
 
             this.compensations = value.compensations.map(x => new Compensation().build(x, value.customer_id))
-            debug('Build completed', '')
+            debug('BySummary', 'Build finished')
+      }
+
+      build_by_json = (value: object) => {
+
+            debug('Build Coin Summary: by json', value)
+
+            let values_entries: Object[] = Object.entries(value)
+
+            values_entries.forEach(entry => {
+                  let isObj = typeof (entry[1]) === 'object'
+
+                  this[entry[0]] = isObj
+                        ? entry[1].value
+                        : entry[1].toString()
+            })
+
+            debug('ByJson', 'Build finished')
       }
 
       add_error = (err: any) => {

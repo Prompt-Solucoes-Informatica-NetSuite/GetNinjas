@@ -4,7 +4,7 @@ define(["require", "exports", "../UseCases/Entities/CoinSummaryUsage"], function
     exports.execute = void 0;
     var execute = function (summary) {
         var coinSummaryUsage = new CoinSummaryUsage_1.CoinSummaryUsage();
-        coinSummaryUsage.build(summary);
+        coinSummaryUsage.build_by_summary(summary);
         coinSummaryUsage.save();
         coinSummaryUsage.save_compensations();
     };

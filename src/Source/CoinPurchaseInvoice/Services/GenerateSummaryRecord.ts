@@ -4,8 +4,8 @@ import { CoinSummaryUsage } from "../UseCases/Entities/CoinSummaryUsage"
 export let execute = (summary: Summary): void => {
 
       let coinSummaryUsage = new CoinSummaryUsage()
-      
-      coinSummaryUsage.build(summary)
+
+      coinSummaryUsage.build_by_summary(summary)
       coinSummaryUsage.save()
       coinSummaryUsage.save_compensations()
 }

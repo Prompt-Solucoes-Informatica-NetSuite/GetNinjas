@@ -39,3 +39,4 @@ Thumbs.db
 # Project config
 project.json
 .DS_Store
+/src/FileCabinet/SuiteScripts

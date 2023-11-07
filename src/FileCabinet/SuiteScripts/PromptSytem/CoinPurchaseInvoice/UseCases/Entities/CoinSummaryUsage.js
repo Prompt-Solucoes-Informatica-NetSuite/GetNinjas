@@ -6,22 +6,37 @@ define(["require", "exports", "N/log", "N/record", "N/query", "../../../_Shared/
     var CoinSummaryUsage = /** @class */ (function () {
         function CoinSummaryUsage() {
             var _this = this;
-            this.build = function (value) {
-                (0, log_1.debug)('Build Coin Summary', value);
+            this.build_by_summary = function (value) {
+                (0, log_1.debug)('Build Coin Summary: by summary', value);
                 if (!value.customer_id)
                     _this.add_error(value.customer_id);
                 if (!value.class_id)
                     _this.add_error(value.class_id);
                 if (!value.quantity)
                     _this.add_error(value.quantity);
-                if (value.amount > 0)
+                if (value.amount === 0)
                     _this.add_error('amount');
+                if (value.rate === 0)
+                    _this.add_error(value.rate);
                 _this.customer_id = value.customer_id;
                 _this.class_id = value.class_id;
                 _this.quantity = value.quantity;
                 _this.amount = value.amount;
+                _this.rate = value.rate;
+                _this.creation_date = value.creation_date;
                 _this.compensations = value.compensations.map(function (x) { return new Compensation().build(x, value.customer_id); });
-                (0, log_1.debug)('Build completed', '');
+                (0, log_1.debug)('BySummary', 'Build finished');
+            };
+            this.build_by_json = function (value) {
+                (0, log_1.debug)('Build Coin Summary: by json', value);
+                var values_entries = Object.entries(value);
+                values_entries.forEach(function (entry) {
+                    var isObj = typeof (entry[1]) === 'object';
+                    _this[entry[0]] = isObj
+                        ? entry[1].value
+                        : entry[1].toString();
+                });
+                (0, log_1.debug)('ByJson', 'Build finished');
             };
             this.add_error = function (err) {
                 _this.errors.push({
@@ -31,7 +46,12 @@ define(["require", "exports", "N/log", "N/record", "N/query", "../../../_Shared/
             };
             this.has_error = function () { return _this.errors.length > 0; };
             this.save_data_summary = function () {
-                (0, log_1.debug)('Save Summary Usage', '');
+                (0, log_1.debug)('Save Summary Usage', {
+                    customer_id: _this.customer_id,
+                    class_id: _this.class_id,
+                    rate: _this.rate,
+                    quantity: _this.quantity
+                });
                 var recType = record.create({
                     type: 'customrecord_coin_summary_usage',
                     isDynamic: true
@@ -62,7 +82,7 @@ define(["require", "exports", "N/log", "N/record", "N/query", "../../../_Shared/
             this.save_data_compensations = function () {
                 (0, log_1.debug)('Save Compensations Summary Usage', '');
                 _this.compensations.forEach(function (x) {
-                    (0, log_1.debug)('Compensation', '');
+                    (0, log_1.debug)('Compensation', x);
                     var recType = record.create({
                         type: 'customrecord_compensation_list',
                         isDynamic: true
@@ -78,10 +98,6 @@ define(["require", "exports", "N/log", "N/record", "N/query", "../../../_Shared/
                     recType.setValue({
                         fieldId: 'custrecord_compensation_coin_summary',
                         value: _this.id
-                    });
-                    recType.setValue({
-                        fieldId: 'custrecord_coin_summary',
-                        value: x.coin_summary_usage_id
                     });
                     x.id = recType.save();
                     x.coin_summary_usage_id = _this.id;
@@ -120,6 +136,9 @@ define(["require", "exports", "N/log", "N/record", "N/query", "../../../_Shared/
             this.quantity = 0;
             this.rate = 0;
             this.amount = 0;
+            this.journal_id = 0;
+            this.invoice_id = 0;
+            this.creation_date = new Date();
             this.compensations = [];
             this.errors = [];
             this.get_by_id = this.get_compensation_by_id;

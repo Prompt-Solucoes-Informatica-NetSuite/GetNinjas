@@ -9,6 +9,7 @@ export class Summary implements ISummary {
       quantity: number
       amount: number
       rate: number
+      creation_date: Date
       compensations: ICompensation[]
 
       buildSuccess: boolean
@@ -28,6 +29,7 @@ export class Summary implements ISummary {
       build = (value: any) => {
 
             debug('Summary Build', value)
+            let noErrorCount = 0
 
             let {
                   customer_id,
@@ -37,13 +39,22 @@ export class Summary implements ISummary {
                   date,
                   quantity,
                   unit_value,
+                  creation_date
             } = value
 
+            noErrorCount++
             if (!customer_id) this.add_error(customer_id)
+            noErrorCount++
             if (!compensation_id) this.add_error(compensation_id)
+            noErrorCount++
             if (!class_id) this.add_error(class_id)
+            noErrorCount++
             if (!date) this.add_error(date)
+            noErrorCount++
             if (!unit_value) this.add_error(unit_value)
+            noErrorCount++
+            if (!creation_date) this.add_error(creation_date)
+            noErrorCount++
 
             if (!this.customer_id)
                   this.customer_id = customer_id
@@ -51,6 +62,8 @@ export class Summary implements ISummary {
                   this.class_id = class_id
             if (!this.rate)
                   this.rate = unit_value
+
+            noErrorCount++
 
             this.compensations.push({
                   compensation_id: compensation_id?.toString(),
@@ -60,8 +73,13 @@ export class Summary implements ISummary {
                   unit_value: parseInt(unit_value ? unit_value : 0),
             })
 
+            noErrorCount++
             this.amount = this.get_total_amount()
+            noErrorCount++
             this.quantity = this.get_total_quantity()
+            noErrorCount++
+
+            debug('noErrorCount', noErrorCount)
       }
 
       add_error = (err: any) => {

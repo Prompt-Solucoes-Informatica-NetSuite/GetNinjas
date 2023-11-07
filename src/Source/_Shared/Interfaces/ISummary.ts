@@ -4,5 +4,6 @@ export interface ISummary {
       quantity: number
       amount: number
       rate: number
+      creation_date: Date
       compensations: ICompensation[]
 }
